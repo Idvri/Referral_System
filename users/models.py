@@ -9,11 +9,13 @@ class User(AbstractUser):
 
     username = None
     email = None
-    phone_number = models.IntegerField(unique=True, verbose_name='номер')
-    verify_code = models.IntegerField(**NULLABLE, verbose_name='код для авторизации')
-    referral_code = models.CharField(max_length=6, unique=True, **NULLABLE, verbose_name='реферальный код')
-    invite_code = models.CharField(max_length=6, unique=True, **NULLABLE, verbose_name='инвайт код')
+    phone_number = models.CharField(max_length=11, unique=True, verbose_name='Номер')
+    referral_code = models.IntegerField(unique=True, verbose_name='Реферальный код', **NULLABLE)
+    invite_code = models.IntegerField(unique=True, verbose_name='Инвайт код', **NULLABLE)
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = []
-# random.randint(1000, 9999)
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
