@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     'users',
+    'service',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rsdb2',
+        'NAME': 'rsdb3',
         'USER': 'postgres',
         'PASSWORD': 'Nodar126'
     }
@@ -141,7 +142,3 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
-
-AUTHENTICATION_BACKENDS = [
-    'users.views.VerifyCodeView',
-]

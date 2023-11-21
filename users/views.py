@@ -7,10 +7,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import permissions, status
 
 from users.models import User
+from users.serializers import PhoneNumberSerializer
 
 
 # Create your views here.
 class PhoneNumberVerificationView(APIView):
+    serializers = PhoneNumberSerializer
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
@@ -38,7 +40,8 @@ class VerifyCodeView(APIView):
         if int(submitted_code) == int(stored_code) and number == stored_number:
             if not user:
                 referral_code = ''.join(random.choices('0123456789', k=6))
-                User.objects.create(phone_number=number,  referral_code=referral_code)
+                user = User.objects.create(phone_number=number,  referral_code=referral_code)
+                user.save()
             refresh = RefreshToken.for_user(request.user)
             access_token = str(refresh.access_token)
             return Response({'access_token': access_token, 'detail': 'Успешная авторизация!'})

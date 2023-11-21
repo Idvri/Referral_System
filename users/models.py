@@ -8,8 +8,7 @@ NULLABLE = {'null': True, 'blank': True}
 class User(AbstractUser):
 
     username = None
-    email = None
-    phone_number = models.CharField(max_length=11, unique=True, verbose_name='Номер')
+    phone_number = models.CharField(unique=True, verbose_name='Номер')
     referral_code = models.IntegerField(unique=True, verbose_name='Реферальный код', **NULLABLE)
     invite_code = models.IntegerField(unique=True, verbose_name='Инвайт код', **NULLABLE)
 
