@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'rsdb',
         'USER': 'postgres',
         'PASSWORD': 'Nodar126',
-        # 'HOST': 'db',
+        'HOST': 'db',
     }
 }
 

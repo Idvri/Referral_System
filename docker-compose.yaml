@@ -16,7 +16,7 @@ services:
   web:
     build: .
     tty: true
-    command: bash -c 'python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8001'
+    command: bash -c 'sleep 5 && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8001'
     ports:
       - '8000:8001'
     depends_on:
