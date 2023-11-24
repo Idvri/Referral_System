@@ -23,7 +23,7 @@ class InviteCode(models.Model):
 
 class ImputedCode(models.Model):
 
-    invite_code = models.OneToOneField(
+    invite_code = models.ForeignKey(
         InviteCode,
         on_delete=models.CASCADE,
         related_name='invited_users',

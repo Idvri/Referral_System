@@ -25,10 +25,11 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     invited_users = serializers.SerializerMethodField()
 
     def get_invited_users(self, obj):
-        code = ImputedCode.objects.filter(invite_code=obj.invite_code.id).first()
-        if code:
-            return [user.number for user in code.invited_users.all()]
-        return []
+        imputed_codes = ImputedCode.objects.filter(invite_code=obj.invite_code.id)
+        invited_users = []
+        for code in imputed_codes:
+            invited_users.extend([user.number for user in code.invited_users.all()])
+        return invited_users
 
     class Meta:
         model = User
