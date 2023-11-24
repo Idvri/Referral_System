@@ -22,7 +22,7 @@ class UserAuthAPIView(APIView):
         number = int(request.data.get('number'))
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid() and not User.objects.filter(number=number).first():
-            return Response({'error': 'Указан неправильный номер телефона!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'number': 'Указан неправильный номер телефона!'}, status=status.HTTP_400_BAD_REQUEST)
 
         verify_code = int(InviteCode.get_code()[:4])
         request.session['user'] = {'number': number, 'verify_code': verify_code}
@@ -40,7 +40,7 @@ class UserVerificationAPIView(APIView):
         if not serializer.is_valid() and not User.objects.filter(number=user['number']).first() or \
                 user != request.session.get('user') or not request.session.get('user'):
             return Response(
-                {'error': 'Указан неправильный номер телефона или код для входа!'},
+                {'number_or_verify_code': 'Указан неправильный номер телефона или код для входа!'},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
