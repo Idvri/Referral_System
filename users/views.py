@@ -29,8 +29,8 @@ class UserAuthAPIView(APIView):
         time.sleep(random.uniform(1, 2))
         print(verify_code)
         return Response(
-            {'detail': f'Код для входа отправлен на номер: {number}.'},
-            {'imitation': verify_code},
+            {'detail': f'Код для входа отправлен на номер: {number}.', 'imitation': verify_code},
+            , status=status.HTTP_400_BAD_REQUEST
         )
 
 
