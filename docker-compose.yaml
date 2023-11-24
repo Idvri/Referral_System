@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=rsdb
+      - POSTGRES_PASSWORD=Nodar126
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+
+  web:
+    build: .
+    tty: true
+    command: bash -c 'sleep 5 && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8001'
+    ports:
+      - '8000:8001'
+    depends_on:
+      - db
+
+volumes:
+  pg_data:
