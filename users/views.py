@@ -29,7 +29,7 @@ class UserAuthAPIView(APIView):
         time.sleep(random.uniform(1, 2))
         print(verify_code)
         return Response(
-            {'detail': f'Код для входа отправлен на номер: {number}.', 'imitation': verify_code},
+            {'detail': f'Код для входа отправлен на номер: {number}.', 'sms_imitation': verify_code},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -58,7 +58,7 @@ class UserVerificationAPIView(APIView):
         access_token = AccessToken.for_user(request.user)
         request.session.clear()
         return Response(
-            {'access_token': str(access_token), 'detail': 'Успешная авторизация!'},
+            {'access_token': str(access_token), 'detail': 'Успешная авторизация!', 'user_id_imitation': user_auth.id},
             status=status.HTTP_200_OK
         )
 
