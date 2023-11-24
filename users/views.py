@@ -28,7 +28,10 @@ class UserAuthAPIView(APIView):
         request.session['user'] = {'number': number, 'verify_code': verify_code}
         time.sleep(random.uniform(1, 2))
         print(verify_code)
-        return Response({'detail': f'Код для входа отправлен на номер: {number}.'})
+        return Response(
+            {'detail': f'Код для входа отправлен на номер: {number}.'},
+            {'imitation': verify_code},
+        )
 
 
 class UserVerificationAPIView(APIView):
