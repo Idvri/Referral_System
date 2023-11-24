@@ -69,10 +69,13 @@ class UserRetrieveAPIView(generics.RetrieveAPIView):
             return Response({'referral_code': 'Указан недействительный инвайт-код!'}, status=status.HTTP_400_BAD_REQUEST)
 
         if user.invite_code.code == referral_code:
-            return Response({'referral_code': 'Нельзя указывать свой собственный инвайт-код!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'referral_code': 'Нельзя указывать свой собственный инвайт-код!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         if user.imputed_code:
-            return Response({'error': 'Вы уже вводили инвайт-код!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'referral_code': 'Вы уже вводили инвайт-код!'}, status=status.HTTP_400_BAD_REQUEST)
 
         input_code = ImputedCode.objects.create(invite_code=invite_code)
         user.imputed_code = input_code
