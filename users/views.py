@@ -2,11 +2,13 @@ import random
 import time
 
 from rest_framework import status, generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import AccessToken
 
 from users.models import User
+from users.permissions import IsOwner
 from users.serializers import UserAuthSerializer, UserVerificationSerializer, UserRetrieveSerializer
 
 from service.models import InviteCode, ImputedCode
@@ -42,20 +44,26 @@ class UserVerificationAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        if not User.objects.filter(number=user['number']).first():
+        user_auth = User.objects.filter(number=user['number']).first()
+
+        if not user_auth:
             number = user['number']
             invite_code = InviteCode.objects.create(code=InviteCode.get_code())
             User.objects.create(number=number, invite_code=invite_code)
 
-        refresh = RefreshToken.for_user(request.user)
-        access_token = str(refresh.access_token)
+        request.user = user_auth
+        access_token = AccessToken.for_user(request.user)
         request.session.clear()
-        return Response({'access_token': access_token, 'detail': 'Успешная авторизация!'}, status=status.HTTP_200_OK)
+        return Response(
+            {'access_token': str(access_token), 'detail': 'Успешная авторизация!'},
+            status=status.HTTP_200_OK
+        )
 
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def post(self, request, pk):
         referral_code = request.data.get('referral_code')

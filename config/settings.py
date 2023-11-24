@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
 
@@ -85,6 +86,7 @@ DATABASES = {
         'NAME': 'rsdb',
         'USER': 'postgres',
         'PASSWORD': 'Nodar126',
+        # 'HOST': 'db',
     }
 }
 
