@@ -49,7 +49,7 @@ class UserVerificationAPIView(APIView):
         if not user_auth:
             number = user['number']
             invite_code = InviteCode.objects.create(code=InviteCode.get_code())
-            User.objects.create(number=number, invite_code=invite_code)
+            user_auth = User.objects.create(number=number, invite_code=invite_code)
 
         request.user = user_auth
         access_token = AccessToken.for_user(request.user)

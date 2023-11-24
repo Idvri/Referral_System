@@ -15,7 +15,7 @@ class InviteCode(models.Model):
 
     @staticmethod
     def get_code():
-        return ''.join(str(random.randint(0, 9)) for _ in range(6))
+        return ''.join(str(random.randint(100000, 999999)))
 
     class Meta:
         verbose_name = 'Инвайт код'
