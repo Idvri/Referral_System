@@ -6,12 +6,15 @@ from users.models import User
 
 
 class UserAuthSerializer(serializers.ModelSerializer):
+    number = serializers.IntegerField(min_value=10000000000, max_value=99999999999)
+
     class Meta:
         model = User
         fields = ('number',)
 
 
 class UserVerificationSerializer(serializers.ModelSerializer):
+    number = serializers.IntegerField(min_value=10000000000, max_value=99999999999)
     verify_code = serializers.IntegerField(min_value=1000, max_value=9999)
 
     class Meta:
